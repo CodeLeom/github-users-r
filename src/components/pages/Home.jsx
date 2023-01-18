@@ -1,8 +1,11 @@
+import UserResult from "../UserResult"
 
 
 function Home() {
   return (
-    <div>Welcome Home Ladies!</div>
+    <div>
+      <UserResult />
+    </div>
   )
 }
 
