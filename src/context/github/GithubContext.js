@@ -11,13 +11,9 @@ export const GithubProvider =({children}) => {
     // const [isLoading, setIsLoading] = useState(true)
     const initialState = {
         users:[],
-        isLoading: true
+        isLoading: false
     }
     const [state, dispatch] = useReducer(GithubReducer, initialState)
-
-    const setLoading = () => dispatch ({
-        type: 'SET_LOADING'
-    })
 
     const fetchUsers = async () => {
         setLoading()
@@ -33,6 +29,11 @@ export const GithubProvider =({children}) => {
         })
         
     }
+ 
+    const setLoading = () => dispatch ({
+        type: 'SET_LOADING'
+    })
+
     return <GithubContext.Provider value={{
         users: state.users,
         isLoading: state.isLoading,
