@@ -15,21 +15,26 @@ export const GithubProvider =({children}) => {
     }
     const [state, dispatch] = useReducer(GithubReducer, initialState)
 
-    const fetchUsers = async () => {
+    const fetchUsers = async (text) => {
         setLoading()
-        const res = await fetch(`${GITHUB_BASE_URL}/users`, {
+        const params = new URLSearchParams({q: text})
+
+        const res = await fetch(`${GITHUB_BASE_URL}/search/users?${params}`, {
             headers: {
                 Authorization: `token ${GITHUB_TOKEN}`,
             },
         })
-        const data = await res.json()
+        const {items} = await res.json()
         dispatch({
             type: 'GET_USERS',
-            payload: data,
+            payload: items,
         })
         
     }
  
+    
+
+    //function to set the loading gif while fetching data from the api
     const setLoading = () => dispatch ({
         type: 'SET_LOADING'
     })
