@@ -32,7 +32,10 @@ export const GithubProvider =({children}) => {
         
     }
  
-    
+    //function to clear users from our state
+    const clearUsers = () => dispatch ({
+        type: 'CLEAR_USERS'
+    })
 
     //function to set the loading gif while fetching data from the api
     const setLoading = () => dispatch ({
@@ -42,7 +45,8 @@ export const GithubProvider =({children}) => {
     return <GithubContext.Provider value={{
         users: state.users,
         isLoading: state.isLoading,
-        fetchUsers
+        fetchUsers,
+        clearUsers
     }}>
         {children}
     </GithubContext.Provider>
