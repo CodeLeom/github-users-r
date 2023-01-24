@@ -3,10 +3,12 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
+import User from './components/pages/User';
 import NotFound from './components/pages/NotFound';
 import { GithubProvider } from './context/github/GithubContext';
 import { AlertProvider } from './context/alert/AlertContext';
 import Alert from './components/Alert';
+
 
 function App() {
   return (
@@ -20,7 +22,8 @@ function App() {
                   <Routes>
                     <Route path='/' element={<Home />} />
                     <Route path='/about' element={<About />} />
-                    <Route path='/NotFound' element={<NotFound />} />
+                    <Route path='/user/:login' element={<User />} />
+                    <Route path='/notfound' element={<NotFound />} />
                     <Route path='/*' element={<NotFound />} />
                   </Routes>
                 </main>
