@@ -2,8 +2,7 @@ import {useEffect, useContext} from 'react'
 import GithubContext from '../../context/github/GithubContext'
 import { Link, useParams } from 'react-router-dom'
 import Spinner from '../Spinner'
-import {FaCodepen, FaStore, FaUserFriends, FaUser} from 'react-icons/fa'
-import { getValue } from '@testing-library/user-event/dist/utils'
+import {FaCode, FaStore, FaUserFriends, FaUsers} from 'react-icons/fa'
 
 function User() {
     const {getUser, user, isLoading} = useContext(GithubContext)
@@ -50,31 +49,68 @@ function User() {
                         <div className="ml-2 mr-1 badge badge-success text-white">{type}</div>{hireable && (<div className='mx-1 badge badge-info text-white'>Hireable</div>)}
                         </h1>
                         <p>{bio}</p>
-                        <div className="mt-4 card-actions">
-                            <a href={html_url} target='_blank' rel='noreferrer' className='btn btn-outline'>Visit Github Profile</a>
-                        </div>
-                    </div>
-                    <div className="w-full p-3 rounded-lg shadow-md bg-base-100 stats">
-                        {location && (
-                        <>
-                            <div className='stat-title text-md'>Location</div>
-                            <div className='text-lg stat-value'>{location}</div>
-                        
-                        </>)}
-                        {blog && (
-                        <>
-                            <div className='mt-2 stat-title text-md'>Website</div>
-                            <div className='text-lg stat-value'>
-                                <a href={`https://${blog}`} target='_blank' rel='noreferrer'>{blog}</a>
+                            <div className="mt-4 card-actions">
+                                <a href={html_url} target='_blank' rel='noreferrer' className='btn btn-outline'>Visit Github Profile</a>
                             </div>
-                        </>)}
+                        <div className="w-full p-3 rounded-lg shadow-md bg-base-100 stats">
+                        {location && (
+                        <div className='stat'>
+                            <div className='stat-title text-md'>Location</div>
+                            <div className='text-sm stat-value'>{location}</div>
+                        </div>)}
+                        {blog && (
+                        <div className='stat'>
+                            <div className='stat-title text-md'>Website</div>
+                            <div className='text-sm stat-value'>
+                                <a href={`https://${blog}`} target='_blank' rel='noreferrer'>Visit Website</a>
+                            </div>
+                        </div>)}
                         {twitter_username && (
-                        <>
-                            <div className='mt-2 stat-title text-md'>Twitter</div>
-                            <div className='text-lg stat-value'>
+                        <div className='stat'>
+                            <div className='stat-title text-md'>Twitter</div>
+                            <div className='text-sm stat-value'>
                                 <a href={`https://twitter.com/${twitter_username}`} target='_blank' rel='noreferrer'>{twitter_username}</a>
                             </div>
-                        </>)}
+                        </div>)}
+                      </div>
+                    </div>
+                    <div className="w-full py-5 mb-6 rounded-lg shadow-md bg-base-100 stats">
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <FaUsers className='text-3xl md:text-3xl' />
+                            </div>
+                            <div className="stat-title pr-5">Followers</div>
+                            <div className="stat-value pr-5 text-3xl md:text-2xl">
+                                {followers}
+                            </div>
+                        </div>
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <FaUserFriends className='text-3xl md:text-3xl' />
+                            </div>
+                            <div className="stat-title pr-5">Following</div>
+                            <div className="stat-value pr-5 text-3xl md:text-2xl">
+                                {following}
+                            </div>
+                        </div>
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <FaCode className='text-3xl md:text-3xl' />
+                            </div>
+                            <div className="stat-title pr-5">Public Repos</div>
+                            <div className="stat-value pr-5 text-3xl md:text-2xl">
+                                {public_repos}
+                            </div>
+                        </div>
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <FaStore className='text-3xl md:text-3xl' />
+                            </div>
+                            <div className="stat-title pr-5">Public Gists</div>
+                            <div className="stat-value pr-5 text-3xl md:text-2xl">
+                                {public_gists}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
