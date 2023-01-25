@@ -2,14 +2,16 @@ import {useEffect, useContext} from 'react'
 import GithubContext from '../../context/github/GithubContext'
 import { Link, useParams } from 'react-router-dom'
 import Spinner from '../Spinner'
+import RepoList from '../RepoList'
 import {FaCode, FaStore, FaUserFriends, FaUsers} from 'react-icons/fa'
 
 function User() {
-    const {getUser, user, isLoading} = useContext(GithubContext)
+    const {getUser, user, isLoading, getUserRepos, repos} = useContext(GithubContext)
     const params = useParams()
 
     useEffect(() =>{
         getUser(params.login)
+        getUserRepos(params.login)
     }, [])
 
     //destructure the user data coming from the api
@@ -114,6 +116,7 @@ function User() {
                     </div>
                 </div>
             </div>
+            <RepoList repos={repos} />
         </div>
     </>
   )
