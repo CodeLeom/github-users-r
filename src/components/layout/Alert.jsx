@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import AlertContext from "../context/alert/AlertContext"
+import AlertContext from "../../context/alert/AlertContext"
 import {FaExclamationTriangle} from 'react-icons/fa'
 
 function Alert() {
