@@ -9,7 +9,7 @@ function About() {
       <p className='mb-4 text-2xl'>
         A React application to search for Github users and display their profile.
       </p>
-      <p className='text-lg'>Version: <span className="text-gray-300">0.0.2</span></p>
+      <p className='text-lg'>Version: <span className="text-gray-300">1.0.0</span></p>
     </div>
   )
 }
