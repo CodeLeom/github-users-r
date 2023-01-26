@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createContext, useReducer } from "react";
 import GithubReducer from './GithubReducer'
 
@@ -5,6 +6,12 @@ const GithubContext = createContext()
 
 const GITHUB_BASE_URL = process.env.REACT_APP_GITHUB_BASE_URL
 const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN
+
+const github = axios.create({
+    baseURL: GITHUB_BASE_URL,
+    headers: {Authorization: `token ${GITHUB_TOKEN}`}
+})
+
 
 export const GithubProvider =({children}) => {
     // const [users, setUsers] = useState([])
@@ -22,16 +29,26 @@ export const GithubProvider =({children}) => {
         setLoading()
         const params = new URLSearchParams({q: text})
 
-        const res = await fetch(`${GITHUB_BASE_URL}/search/users?${params}`, {
-            headers: {
-                Authorization: `token ${GITHUB_TOKEN}`,
-            },
-        })
-        const {items} = await res.json()
+         //using axios to fetch data from the endpoint
+        const res = await github.get(`/search/users?${params}`)
+        const items = res.data.items
         dispatch({
             type: 'GET_USERS',
             payload: items,
         })
+
+        //using fetch api to fetch data from the endpoint
+
+        // const res = await fetch(`${GITHUB_BASE_URL}/search/users?${params}`, {
+        //     headers: {
+        //         Authorization: `token ${GITHUB_TOKEN}`,
+        //     },
+        // })
+        // const {items} = await res.json()
+        // dispatch({
+        //     type: 'GET_USERS',
+        //     payload: items,
+        // })
         
     }
  
@@ -39,21 +56,35 @@ export const GithubProvider =({children}) => {
     const getUser = async (login) => {
         setLoading()
 
-        const res = await fetch(`${GITHUB_BASE_URL}/users/${login}`,{
-            headers: {
-                Authorization: `token ${GITHUB_TOKEN}`,
-            }
-        })
-
+        //using axios to fetch data from the endpoint
+        const res = await github.get(`/users/${login}`)
         if(res.status === 404){
             window.location = '/notfound'
         } else {
-            const data = await res.json()
+            const data = res.data
             dispatch({
                 type: 'GET_USER',
                 payload: data,
             })
         }
+
+        //using fetch api to fetch data from the endpoint
+
+        // const res = await fetch(`${GITHUB_BASE_URL}/users/${login}`,{
+        //     headers: {
+        //         Authorization: `token ${GITHUB_TOKEN}`,
+        //     }
+        // })
+
+        // if(res.status === 404){
+        //     window.location = '/notfound'
+        // } else {
+        //     const data = await res.json()
+        //     dispatch({
+        //         type: 'GET_USER',
+        //         payload: data,
+        //     })
+        // }
 
     }
 
@@ -66,17 +97,28 @@ export const GithubProvider =({children}) => {
             per_page: 5
         })
 
-        const res = await fetch(`${GITHUB_BASE_URL}/users/${login}/repos?${params}`,{
-            headers: {
-                Authorization: `token ${GITHUB_TOKEN}`,
-            },
-        })
+        //using axios to fetch data from the endpoint
+        const res = await github.get(`/users/${login}/repos?${params}`)
 
-        const data = await res.json()
+        const data = res.data
         dispatch ({
             type: 'GET_REPOS',
             payload: data,
         })
+
+         //using fetch api to fetch data from the endpoint
+
+        // const res = await fetch(`${GITHUB_BASE_URL}/users/${login}/repos?${params}`,{
+        //     headers: {
+        //         Authorization: `token ${GITHUB_TOKEN}`,
+        //     },
+        // })
+
+        // const data = await res.json()
+        // dispatch ({
+        //     type: 'GET_REPOS',
+        //     payload: data,
+        // })
     }
 
     //function to clear users from our state
@@ -90,10 +132,7 @@ export const GithubProvider =({children}) => {
     })
 
     return <GithubContext.Provider value={{
-        users: state.users,
-        isLoading: state.isLoading,
-        user: state.user,
-        repos: state.repos,
+        ...state,
         fetchUsers,
         clearUsers,
         getUser,
